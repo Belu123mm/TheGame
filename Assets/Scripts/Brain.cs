@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Brain : MonoBehaviour {
 
-    public float speed = 8
+    public float speed = 8      //Bale pos no voy a decir nada, me gusta la idea pero kcyo dejame esta bien T.T
         , acceleration = 12
-        , jumpForce = 500f
+        , jumpForce = 10
         , currentSpeed
         , playerSpeed;
     private Player player;
@@ -14,26 +14,31 @@ public class Brain : MonoBehaviour {
     public bool ground;
     public bool spammingSpace;
 
-    // Use this for initialization
     void Start() {
         player = GetComponent<Player>();
     }
     
-    // Update is called once per frame
-    void Update() {
+    void Update() {    
+    }
+    private void FixedUpdate()
+    {      //Todas las funciones o cosas que tengan que ver con fisicas, aca. Tanto colisiones como movimiento o lo que sea 
         playerSpeed = Input.GetAxisRaw("Horizontal") * speed;
-        currentSpeed = Move(currentSpeed, playerSpeed, acceleration);
+        currentSpeed = Move(currentSpeed, playerSpeed, acceleration);       //Lo hace con aceleracion, esta a proposito?
 
         amountToMove = new Vector2(currentSpeed, 0);
         player.Move(amountToMove * Time.deltaTime);
-        if(player.body.velocity.y < -0.1 && ground) {
+        if (player.body.velocity.y < -0.1 && ground)
+        {
             ground = false;
         }
-        if(Input.GetAxis("Jump") == 1) {
-            if(ground) {
-                ground = false;
+        if (Input.GetButton("Jump"))        //Cambie esto, mirate el tema de los bools
+        {
+            player.Jump(jumpForce);
+            print("hello");
+            if (ground)
+            {
                 //spammingSpace = true;
-                player.Jump(jumpForce);
+                ground = false;
             }
         }
     }

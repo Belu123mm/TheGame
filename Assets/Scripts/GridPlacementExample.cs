@@ -16,7 +16,6 @@ public class GridPlacementExample : MonoBehaviour
     void Update()
     {
         Transform[] childrens = GetComponentsInChildren<Transform>();
-        print(childrens.Length);
         if (Application.isEditor)
         {
             for (int i = childrens.Length - 1; i >= 0; i--)
@@ -31,20 +30,20 @@ public class GridPlacementExample : MonoBehaviour
                     currentPosition.z - zDifference);
             }
 
-        }
-        //Grid
-        float xCalc = xGridScale / 2;
-        float yCalc = yGridScale / 2;
-        float zCalc = zGridScale / 2;
-        for (int i = 0; i < gridScale; i++)
-        {
-            if (gridScale % 2 == 0)
-                gridScale++;
+
+            //Grid
+            float xCalc = xGridScale / 2;
+            float yCalc = yGridScale / 2;
+            float zCalc = zGridScale / 2;
+            for (int i = 0; i < gridScale; i++)
+            {
+                if (gridScale % 2 == 0)
+                    gridScale++;
 
 
+            }
         }
+        // void OnDrawGizmos() {
+
     }
-    // void OnDrawGizmos() {
-
 }
-
