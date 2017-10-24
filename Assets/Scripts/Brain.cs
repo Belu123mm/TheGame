@@ -31,11 +31,18 @@ public class Brain : MonoBehaviour {
         {
             ground = false;
         }
-        if (Input.GetButton("Jump"))        //Cambie esto, mirate el tema de los bools
+        //Salto
+        if (Input.GetButton("Jump") && !spammingSpace)        //Cambie esto, mirate el tema de los bools
         {
-            player.Jump(jumpForce);
-            print("hello");
-            if (ground)
+            float _tempJumpForce = jumpForce;
+            player.Jump(_tempJumpForce);
+            spammingSpace = true;
+            
+            if (spammingSpace)
+            {
+                _tempJumpForce -= 1;
+            }
+                    if (ground)
             {
                 //spammingSpace = true;
                 ground = false;
@@ -53,7 +60,7 @@ public class Brain : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D c) {
-        if(c.gameObject.tag == "Collision") {
+        if(c.gameObject.layer == LayerMask.NameToLayer("Floor")) {
             // Delay to this ->
             player.body.velocity = Vector3.zero;
             player.body.angularVelocity = 0f;
