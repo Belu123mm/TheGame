@@ -11,8 +11,8 @@ public class Brain : MonoBehaviour {
         , playerSpeed;
     private Player player;
     private Vector2 amountToMove;
-    public bool ground;
-    public bool spammingSpace;
+    public bool ground,
+        spammingSpace;
 
     void Start() {
         player = GetComponent<Player>();
@@ -23,14 +23,13 @@ public class Brain : MonoBehaviour {
     private void FixedUpdate()
     {      //Todas las funciones o cosas que tengan que ver con fisicas, aca. Tanto colisiones como movimiento o lo que sea 
         playerSpeed = Input.GetAxisRaw("Horizontal") * speed;
-        currentSpeed = Move(currentSpeed, playerSpeed, acceleration);       //Lo hace con aceleracion, esta a proposito?
+        currentSpeed = Move(currentSpeed, playerSpeed, acceleration);       //Lo hace con aceleracion, esta a proposito? RTA: ¿Por? ¿Acaso afecta en algop?
 
         amountToMove = new Vector2(currentSpeed, 0);
         player.Move(amountToMove * Time.deltaTime);
-        if (player.body.velocity.y < -0.1 && ground)
-        {
+        if (player.body.velocity.y < -0.1 && ground) {
             ground = false;
-        }
+        } else ground = true;
         //Salto
         if (Input.GetButton("Jump") && !spammingSpace)        //Cambie esto, mirate el tema de los bools
         {
@@ -52,6 +51,12 @@ public class Brain : MonoBehaviour {
 
     public float Move(float n, float target, float a) {
         if (n == target) return n;
+        else if(!ground) {
+            float dir = Mathf.Sign(target - n);
+            n += a * Time.deltaTime * dir;
+            print(((dir == Mathf.Sign(target - n)) ? n : target));
+            return ((dir == Mathf.Sign(target - n)) ? n : target);
+        }
         else {
             float dir = Mathf.Sign(target - n);
             n += a * Time.deltaTime * dir;
